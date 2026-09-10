@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SearchIcon, UserIcon, BagIcon } from "@/components/icons";
 import { MobileNav } from "@/components/mobile-nav";
+import { CartBadge } from "@/components/cart-badge";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -37,8 +38,9 @@ export function Header() {
           <Link href="/account" aria-label="Your account" className="hidden sm:inline-flex p-1">
             <UserIcon className="h-5 w-5" />
           </Link>
-          <Link href="/cart" aria-label="Your cart" className="inline-flex p-1">
+          <Link href="/cart" aria-label="Your cart" className="relative inline-flex p-1">
             <BagIcon className="h-5 w-5" />
+            <CartBadge />
           </Link>
           <MobileNav />
         </div>

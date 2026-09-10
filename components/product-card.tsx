@@ -9,14 +9,9 @@ type ProductWithRelations = Prisma.ProductGetPayload<{
 
 export function ProductCard({ product }: { product: ProductWithRelations }) {
   const image = product.images[0];
-  const categorySlug = product.category.slug;
 
   return (
-    <Link
-      href={`/products?category=${categorySlug}`}
-      className="group block"
-      aria-label={`${product.name} — shop the ${product.category.name} collection`}
-    >
+    <Link href={`/products/${product.slug}`} className="group block" aria-label={product.name}>
       <div className="aspect-square bg-surface border border-border flex items-center justify-center overflow-hidden">
         {image ? (
           <Image
