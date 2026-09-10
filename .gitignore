@@ -10,6 +10,9 @@
 !.yarn/releases
 !.yarn/versions
 
+# Local Claude tooling
+.claude/
+
 # testing
 /coverage
 
