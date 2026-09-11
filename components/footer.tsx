@@ -1,43 +1,74 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/brand-logo";
 
-const CATEGORY_LINKS = [
+const SHOP_LINKS = [
   { label: "Rings", href: "/products?category=rings" },
   { label: "Earrings", href: "/products?category=earrings" },
-  { label: "Chains & Necklaces", href: "/products?category=chains-necklaces" },
+  { label: "Necklaces", href: "/products?category=chains-necklaces" },
   { label: "Bracelets", href: "/products?category=bracelets" },
+];
+
+const CUSTOMER_LINKS = [
+  { label: "My Account", href: "/account" },
+  { label: "Orders", href: "/account" },
+  { label: "Cart", href: "/cart" },
+];
+
+const COMPANY_LINKS = [
+  { label: "About", href: "/#story" },
+  { label: "Our Story", href: "/#story" },
 ];
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-background">
-      <div className="mx-auto max-w-7xl px-6 py-12 flex flex-col gap-10 sm:flex-row sm:justify-between">
+    <footer className="relative overflow-hidden border-t border-border bg-background">
+      {/* Faint faceted diamond geometry, purely decorative */}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 800 400"
+        className="pointer-events-none absolute -bottom-24 -right-24 h-[420px] w-[420px] opacity-[0.06]"
+      >
+        <polygon points="400,20 620,140 540,360 260,360 180,140" fill="none" stroke="var(--accent)" strokeWidth="1.5" />
+        <path d="M400 20 L400 200 M180 140 L400 200 L620 140 M260 360 L400 200 L540 360" fill="none" stroke="var(--accent)" strokeWidth="1" />
+      </svg>
+
+      <div className="relative mx-auto max-w-7xl px-6 py-20 grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div className="max-w-sm">
-          <p className="font-display text-xl tracking-wide">DAD OF DIAMONDS</p>
-          <p className="mt-3 text-sm text-muted">
-            Fine diamond jewelry, crafted for everyone. Rings, earrings, chains, and bracelets
-            made to last a lifetime.
+          <BrandLogo />
+          <p className="mt-5 text-sm text-muted leading-relaxed">
+            Born in Surat, the world&rsquo;s diamond-cutting capital. Dad of Diamonds brings that
+            precision to fine jewelry crafted for everyone.
           </p>
         </div>
 
-        <nav aria-label="Shop categories">
-          <p className="text-xs uppercase tracking-widest text-muted">Shop</p>
-          <ul className="mt-4 flex flex-col gap-2 text-sm">
-            {CATEGORY_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className="hover:text-accent transition-colors">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <FooterColumn title="Shop" links={SHOP_LINKS} />
+        <FooterColumn title="Customer" links={CUSTOMER_LINKS} />
+        <FooterColumn title="Company" links={COMPANY_LINKS} />
       </div>
 
-      <div className="border-t border-border">
-        <p className="mx-auto max-w-7xl px-6 py-6 text-xs text-muted">
-          © {new Date().getFullYear()} Dad of Diamonds. All rights reserved.
-        </p>
+      <div className="relative border-t border-border">
+        <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between text-xs text-muted">
+          <p>© {new Date().getFullYear()} Dad of Diamonds. All rights reserved.</p>
+          <p className="uppercase tracking-[0.2em]">Surat, India</p>
+        </div>
       </div>
     </footer>
+  );
+}
+
+function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
+  return (
+    <nav aria-label={title}>
+      <p className="text-xs uppercase tracking-[0.2em] text-muted">{title}</p>
+      <ul className="mt-5 flex flex-col gap-3 text-sm">
+        {links.map((link) => (
+          <li key={link.label}>
+            <Link href={link.href} className="link-reveal hover:text-accent transition-colors">
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }

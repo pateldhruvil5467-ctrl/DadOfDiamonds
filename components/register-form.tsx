@@ -63,7 +63,7 @@ export function RegisterForm({ callbackUrl }: { callbackUrl: string }) {
           className="w-full border border-border bg-background px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
         />
         {errors.name && (
-          <span className="text-xs text-red-700" role="alert">
+          <span className="text-xs text-red-400" role="alert">
             {errors.name.message}
           </span>
         )}
@@ -78,7 +78,7 @@ export function RegisterForm({ callbackUrl }: { callbackUrl: string }) {
           className="w-full border border-border bg-background px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
         />
         {errors.email && (
-          <span className="text-xs text-red-700" role="alert">
+          <span className="text-xs text-red-400" role="alert">
             {errors.email.message}
           </span>
         )}
@@ -93,7 +93,7 @@ export function RegisterForm({ callbackUrl }: { callbackUrl: string }) {
           className="w-full border border-border bg-background px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
         />
         {errors.password && (
-          <span className="text-xs text-red-700" role="alert">
+          <span className="text-xs text-red-400" role="alert">
             {errors.password.message}
           </span>
         )}
@@ -108,7 +108,7 @@ export function RegisterForm({ callbackUrl }: { callbackUrl: string }) {
       </button>
 
       {serverError && (
-        <p className="text-sm text-red-700" role="alert">
+        <p className="text-sm text-red-400" role="alert">
           {serverError}
         </p>
       )}

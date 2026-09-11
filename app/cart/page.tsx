@@ -24,11 +24,12 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-4xl px-6 py-24 text-center">
-        <h1 className="font-display text-3xl">Your cart is empty</h1>
+        <p className="eyebrow">Your Bag</p>
+        <h1 className="mt-3 font-display text-4xl">Your cart is empty</h1>
         <p className="mt-4 text-muted">Browse the collection and find something for anyone.</p>
         <Link
           href="/products"
-          className="mt-8 inline-block bg-foreground text-background px-8 py-3 text-sm tracking-widest uppercase hover:bg-accent transition-colors"
+          className="mt-8 inline-block bg-foreground text-background px-8 py-3 text-sm tracking-[0.18em] uppercase hover:bg-accent transition-colors"
         >
           Shop the Collection
         </Link>
@@ -39,23 +40,25 @@ export default function CartPage() {
   const currency = items[0]?.currency ?? "EUR";
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
-      <h1 className="font-display text-3xl">Your Cart</h1>
+    <div className="mx-auto max-w-4xl px-6 py-16 sm:py-20">
+      <p className="eyebrow">Your Bag</p>
+      <h1 className="mt-3 font-display text-4xl">Your Cart</h1>
 
       <ul className="mt-10 flex flex-col gap-8">
         {items.map((item) => (
           <li key={item.productId} className="flex gap-6 border-b border-border pb-8">
-            <div className="h-28 w-28 shrink-0 bg-surface border border-border flex items-center justify-center">
+            <div className="relative h-32 w-32 sm:h-36 sm:w-36 shrink-0 bg-surface border border-border flex items-center justify-center overflow-hidden">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,var(--accent-soft)_0%,transparent_70%)] opacity-20" />
               {item.image ? (
                 <Image
                   src={item.image}
                   alt={item.name}
-                  width={112}
-                  height={112}
-                  className="h-full w-full object-contain p-4"
+                  width={144}
+                  height={144}
+                  className="relative h-full w-full object-contain p-5"
                 />
               ) : (
-                <span className="text-xs text-muted">No image</span>
+                <span className="relative text-xs text-muted">No image</span>
               )}
             </div>
 

@@ -28,49 +28,47 @@ export default async function ProductDetailPage({
     product.stock <= 0 ? "Out of stock" : product.stock <= 5 ? `Only ${product.stock} left` : "In stock";
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16">
-      <Link href="/products" className="text-sm text-muted hover:text-accent transition-colors">
+    <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+      <Link href="/products" className="link-reveal text-sm text-muted hover:text-accent transition-colors">
         ← Back to all jewelry
       </Link>
 
-      <div className="mt-8 grid gap-12 sm:grid-cols-2">
-        <div className="aspect-square bg-surface border border-border flex items-center justify-center">
+      <div className="mt-8 grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="relative aspect-square border border-border bg-surface flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,var(--accent-soft)_0%,transparent_70%)] opacity-20" />
           {image ? (
             <Image
               src={image.url}
               alt={image.altText ?? product.name}
-              width={480}
-              height={480}
+              width={560}
+              height={560}
               priority
-              className="h-full w-full object-contain p-16"
+              className="relative h-full w-full object-contain p-16"
             />
           ) : (
-            <span className="text-xs text-muted">No image</span>
+            <span className="relative text-xs text-muted">No image</span>
           )}
         </div>
 
-        <div>
+        <div className="lg:sticky lg:top-[130px] lg:self-start">
           <Link
             href={`/products?category=${product.category.slug}`}
-            className="text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors"
+            className="eyebrow hover:text-foreground transition-colors"
           >
             {product.category.name}
           </Link>
 
-          <h1 className="mt-2 font-display text-4xl">{product.name}</h1>
-          <p className="mt-4 text-xl">{formatMoney(product.price, product.currency)}</p>
+          <h1 className="mt-3 font-display text-4xl sm:text-5xl leading-tight">{product.name}</h1>
+          <p className="mt-5 text-2xl text-accent">{formatMoney(product.price, product.currency)}</p>
 
-          <p
-            className={`mt-2 text-sm ${product.stock <= 0 ? "text-muted" : "text-accent"}`}
-            role="status"
-          >
+          <p className={`mt-3 text-sm ${product.stock <= 0 ? "text-muted" : "text-accent"}`} role="status">
             {stockLabel}
           </p>
 
-          <p className="mt-6 text-muted leading-relaxed">{product.description}</p>
+          <p className="mt-7 text-muted leading-relaxed">{product.description}</p>
           <p className="mt-4 text-sm text-muted">Material: {product.material}</p>
 
-          <div className="mt-8">
+          <div className="mt-9 border-t border-border pt-9">
             <AddToCartForm
               productId={product.id}
               slug={product.slug}
@@ -81,6 +79,17 @@ export default async function ProductDetailPage({
               stock={product.stock}
             />
           </div>
+
+          <dl className="mt-10 grid grid-cols-2 gap-6 border-t border-border pt-8 text-xs uppercase tracking-[0.15em] text-muted">
+            <div>
+              <dt className="text-foreground">Delivery</dt>
+              <dd className="mt-1">Worldwide, securely packed</dd>
+            </div>
+            <div>
+              <dt className="text-foreground">Packaging</dt>
+              <dd className="mt-1">Presented with care</dd>
+            </div>
+          </dl>
         </div>
       </div>
     </div>
