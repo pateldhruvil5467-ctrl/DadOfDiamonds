@@ -25,6 +25,14 @@ interface CartState {
   clearCart: () => void;
   subtotal: () => number;
   itemCount: () => number;
+  /**
+   * One idempotency key per checkout attempt, persisted alongside the cart so a retry (even
+   * across a page refresh) reuses the same key instead of minting a new one. Cleared when the
+   * cart is cleared (e.g. after a real successful order, in Phase 2.3B) or changes.
+   */
+  checkoutIdempotencyKey: string | null;
+  getOrCreateIdempotencyKey: () => string;
+  clearIdempotencyKey: () => void;
 }
 
 /**
@@ -63,6 +71,7 @@ export const useCartStore = create<CartState>()(
       items: [],
       hasHydrated: false,
       setHasHydrated: (value) => set({ hasHydrated: value }),
+      checkoutIdempotencyKey: null,
 
       addItem: (item, quantity = 1) =>
         set((state) => {
@@ -73,11 +82,15 @@ export const useCartStore = create<CartState>()(
               items: state.items.map((i) =>
                 i.productId === item.productId ? { ...i, quantity: nextQuantity } : i,
               ),
+              checkoutIdempotencyKey: null, // cart changed — any in-flight checkout attempt is stale
             };
           }
           const initialQuantity = Math.min(Math.max(quantity, 1), Math.max(item.stock, 0));
           if (initialQuantity <= 0) return state; // out of stock — nothing to add
-          return { items: [...state.items, { ...item, quantity: initialQuantity }] };
+          return {
+            items: [...state.items, { ...item, quantity: initialQuantity }],
+            checkoutIdempotencyKey: null,
+          };
         }),
 
       increaseQuantity: (productId) =>
@@ -85,6 +98,7 @@ export const useCartStore = create<CartState>()(
           items: state.items.map((i) =>
             i.productId === productId ? { ...i, quantity: Math.min(i.quantity + 1, i.stock) } : i,
           ),
+          checkoutIdempotencyKey: null,
         })),
 
       decreaseQuantity: (productId) =>
@@ -92,20 +106,33 @@ export const useCartStore = create<CartState>()(
           items: state.items.map((i) =>
             i.productId === productId ? { ...i, quantity: Math.max(1, i.quantity - 1) } : i,
           ),
+          checkoutIdempotencyKey: null,
         })),
 
       removeItem: (productId) =>
-        set((state) => ({ items: state.items.filter((i) => i.productId !== productId) })),
+        set((state) => ({
+          items: state.items.filter((i) => i.productId !== productId),
+          checkoutIdempotencyKey: null,
+        })),
 
-      clearCart: () => set({ items: [] }),
+      clearCart: () => set({ items: [], checkoutIdempotencyKey: null }),
 
       subtotal: () => get().items.reduce((sum, i) => sum + i.price * i.quantity, 0),
       itemCount: () => get().items.reduce((sum, i) => sum + i.quantity, 0),
+
+      getOrCreateIdempotencyKey: () => {
+        const existing = get().checkoutIdempotencyKey;
+        if (existing) return existing;
+        const next = crypto.randomUUID();
+        set({ checkoutIdempotencyKey: next });
+        return next;
+      },
+      clearIdempotencyKey: () => set({ checkoutIdempotencyKey: null }),
     }),
     {
       name: "dad-of-diamonds-cart",
       storage: createJSONStorage(() => safeLocalStorage),
-      partialize: (state) => ({ items: state.items }),
+      partialize: (state) => ({ items: state.items, checkoutIdempotencyKey: state.checkoutIdempotencyKey }),
       onRehydrateStorage: () => (state) => {
         // Called after rehydration attempts, whether it succeeded or the stored value was
         // missing/malformed — either way, it's now safe to render cart-dependent UI.

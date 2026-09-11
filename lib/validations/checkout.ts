@@ -24,3 +24,35 @@ export const checkoutSchema = z.object({
   path: ["addressId"],
 });
 export type CheckoutInput = z.infer<typeof checkoutSchema>;
+
+/**
+ * POST /api/checkout response contract (Phase 2.3B). "order_created" means a real Order row
+ * now exists — but its paymentStatus must always be checked, since order creation can succeed
+ * while payment settlement fails. Money values are serialized as strings (never plain numbers)
+ * to avoid any float round-tripping through JSON.
+ */
+export interface CheckoutValidationIssue {
+  path: string;
+  message: string;
+}
+
+export interface CheckoutOrderResult {
+  orderNumber: string;
+  status: string;
+  paymentStatus: string;
+  total: string;
+  currency: string;
+}
+
+export interface CheckoutSuccessResponse {
+  status: "order_created";
+  order: CheckoutOrderResult;
+}
+
+export interface CheckoutErrorResponse {
+  status: "error";
+  error: string;
+  issues?: CheckoutValidationIssue[];
+}
+
+export type CheckoutApiResponse = CheckoutSuccessResponse | CheckoutErrorResponse;
