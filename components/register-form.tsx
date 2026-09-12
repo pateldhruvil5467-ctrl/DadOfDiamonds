@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema, type SignupInput } from "@/lib/validations/auth";
+import { LuxuryButton } from "@/components/luxury-button";
 
 interface RegisterErrorResponse {
   status: "error";
@@ -54,58 +55,42 @@ export function RegisterForm({ callbackUrl }: { callbackUrl: string }) {
   }
 
   return (
-    <form className="mt-8 flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>
-      <label className="flex flex-col gap-1 text-sm">
+    <form className="mt-10 flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.15em] text-muted">
         <span>Name</span>
-        <input
-          {...register("name")}
-          autoComplete="name"
-          className="w-full border border-border bg-background px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
-        />
+        <input {...register("name")} autoComplete="name" className="field-underline" />
         {errors.name && (
-          <span className="text-xs text-red-400" role="alert">
+          <span className="text-[11px] normal-case tracking-normal text-red-400" role="alert">
             {errors.name.message}
           </span>
         )}
       </label>
 
-      <label className="flex flex-col gap-1 text-sm">
+      <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.15em] text-muted">
         <span>Email</span>
-        <input
-          {...register("email")}
-          type="email"
-          autoComplete="email"
-          className="w-full border border-border bg-background px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
-        />
+        <input {...register("email")} type="email" autoComplete="email" className="field-underline" />
         {errors.email && (
-          <span className="text-xs text-red-400" role="alert">
+          <span className="text-[11px] normal-case tracking-normal text-red-400" role="alert">
             {errors.email.message}
           </span>
         )}
       </label>
 
-      <label className="flex flex-col gap-1 text-sm">
+      <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.15em] text-muted">
         <span>Password</span>
-        <input
-          {...register("password")}
-          type="password"
-          autoComplete="new-password"
-          className="w-full border border-border bg-background px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
-        />
+        <input {...register("password")} type="password" autoComplete="new-password" className="field-underline" />
         {errors.password && (
-          <span className="text-xs text-red-400" role="alert">
+          <span className="text-[11px] normal-case tracking-normal text-red-400" role="alert">
             {errors.password.message}
           </span>
         )}
       </label>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="mt-2 bg-foreground text-background px-8 py-3 text-sm tracking-widest uppercase hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {isSubmitting ? "Creating Account…" : "Create Account"}
-      </button>
+      <div className="mt-2">
+        <LuxuryButton type="submit" variant="solid" disabled={isSubmitting} arrow className="w-full">
+          {isSubmitting ? "Creating Account…" : "Create Account"}
+        </LuxuryButton>
+      </div>
 
       {serverError && (
         <p className="text-sm text-red-400" role="alert">

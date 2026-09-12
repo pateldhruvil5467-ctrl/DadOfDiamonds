@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useCartStore } from "@/lib/cart-store";
 import { QuantityStepper } from "@/components/quantity-stepper";
+import { LuxuryButton } from "@/components/luxury-button";
 
 type AddToCartFormProps = {
   productId: string;
@@ -34,7 +35,7 @@ export function AddToCartForm({ productId, slug, name, price, currency, image, s
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-5">
       <QuantityStepper
         label={`Quantity for ${name}`}
         value={quantity}
@@ -43,16 +44,12 @@ export function AddToCartForm({ productId, slug, name, price, currency, image, s
         onIncrease={() => setQuantity((q) => Math.min(stock, q + 1))}
       />
 
-      <button
-        type="button"
-        onClick={handleAddToCart}
-        className="bg-foreground text-background px-8 py-3 text-sm tracking-widest uppercase hover:bg-accent transition-colors"
-      >
-        Add to Cart
-      </button>
+      <LuxuryButton type="button" variant="solid" onClick={handleAddToCart} arrow className="w-fit">
+        Add to Bag
+      </LuxuryButton>
 
-      <p aria-live="polite" className="text-sm text-accent min-h-5">
-        {confirmation ? `Added ${name} to cart.` : ""}
+      <p aria-live="polite" className="text-xs uppercase tracking-[0.15em] text-accent min-h-4">
+        {confirmation ? `Added to bag` : ""}
       </p>
     </div>
   );

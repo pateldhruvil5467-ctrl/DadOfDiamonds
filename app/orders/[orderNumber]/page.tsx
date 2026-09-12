@@ -36,95 +36,88 @@ export default async function OrderConfirmationPage({
   const isPaid = order.paymentStatus === "PAID";
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16 sm:py-20">
-      <div className="text-center">
-        {isPaid && <DiamondSparkle size={28} className="mx-auto mb-5" />}
-        <p className="eyebrow">{isPaid ? "Order Confirmed" : "Order Received"}</p>
-        <h1 className="mt-4 font-display text-4xl sm:text-5xl">
-          {isPaid ? (
-            <>
-              Thank you for choosing
-              <br />
-              <span className="text-accent">Dad of Diamonds.</span>
-            </>
-          ) : (
-            "We received your order"
-          )}
-        </h1>
-        <p className="mt-4 text-muted">Order {order.orderNumber}</p>
-      </div>
-
-      <div className="mt-10 flex justify-center gap-6 text-sm">
-        <StatusPill label="Status" value={order.status} positive={isPaid} />
-        <StatusPill label="Payment" value={order.paymentStatus} positive={isPaid} />
-      </div>
-
-      <section aria-labelledby="items-heading" className="mt-14 border-t border-border pt-10">
-        <h2 id="items-heading" className="eyebrow">
-          Items
-        </h2>
-        <ul className="mt-5 flex flex-col gap-4">
-          {order.items.map((item) => (
-            <li key={item.id} className="flex justify-between gap-4 text-sm border-b border-border pb-4">
-              <span>
-                {item.productName} <span className="text-muted">× {item.quantity}</span>
-              </span>
-              <span className="whitespace-nowrap">{formatMoney(item.subtotal, order.currency)}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-5 flex justify-between text-sm text-muted">
-          <span>Subtotal</span>
-          <span>{formatMoney(order.subtotal, order.currency)}</span>
+    <div className="pt-[140px]">
+      <div className="mx-auto max-w-2xl px-6 pb-24">
+        <div className="text-center">
+          {isPaid && <DiamondSparkle size={26} className="mx-auto mb-7" />}
+          <p className="eyebrow">{isPaid ? "Order Confirmed" : "Order Received"}</p>
+          <h1 className="mt-5 font-display text-4xl sm:text-5xl leading-[1.1]">
+            {isPaid ? (
+              <>
+                Thank you for choosing
+                <br />
+                Dad of Diamonds.
+              </>
+            ) : (
+              "We received your order"
+            )}
+          </h1>
+          <p className="mt-5 text-sm text-muted">Order {order.orderNumber}</p>
         </div>
-        <div className="flex justify-between text-sm text-muted">
-          <span>Shipping</span>
-          <span>{formatMoney(order.shippingCost, order.currency)}</span>
-        </div>
-        <div className="mt-3 flex justify-between text-lg font-display">
-          <span>Total</span>
-          <span className="text-accent">{formatMoney(order.total, order.currency)}</span>
-        </div>
-      </section>
 
-      <section aria-labelledby="shipping-heading" className="mt-10 border-t border-border pt-10">
-        <h2 id="shipping-heading" className="eyebrow">
-          Shipping To
-        </h2>
-        <address className="mt-5 not-italic text-sm leading-relaxed text-muted">
-          <span className="text-foreground">{order.shippingFullName}</span>
-          <br />
-          {order.shippingLine1}
-          <br />
-          {order.shippingLine2 && (
-            <>
-              {order.shippingLine2}
-              <br />
-            </>
-          )}
-          {order.shippingCity}, {order.shippingState} {order.shippingPostalCode}
-          <br />
-          {order.shippingCountry}
-          <br />
-          {order.shippingPhone}
-        </address>
-      </section>
+        <div className="mt-9 flex justify-center gap-8 text-xs uppercase tracking-[0.2em]">
+          <span className={isPaid ? "text-accent" : "text-muted"}>Status — {order.status}</span>
+          <span className={isPaid ? "text-accent" : "text-muted"}>Payment — {order.paymentStatus}</span>
+        </div>
 
-      <div className="mt-14 text-center">
-        <LuxuryButton href="/products" arrow>
-          Continue Shopping
-        </LuxuryButton>
+        <section aria-labelledby="items-heading" className="mt-16 border-t border-border pt-10">
+          <h2 id="items-heading" className="eyebrow">
+            Items
+          </h2>
+          <ul className="mt-6 flex flex-col">
+            {order.items.map((item) => (
+              <li key={item.id} className="flex justify-between gap-4 text-sm border-b border-border py-4 first:pt-0">
+                <span>
+                  {item.productName} <span className="text-muted">× {item.quantity}</span>
+                </span>
+                <span className="whitespace-nowrap text-champagne">{formatMoney(item.subtotal, order.currency)}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-5 flex justify-between text-sm text-muted">
+            <span>Subtotal</span>
+            <span>{formatMoney(order.subtotal, order.currency)}</span>
+          </div>
+          <div className="flex justify-between text-sm text-muted">
+            <span>Shipping</span>
+            <span>{formatMoney(order.shippingCost, order.currency)}</span>
+          </div>
+          <div className="mt-4 flex justify-between font-display text-xl">
+            <span>Total</span>
+            <span>{formatMoney(order.total, order.currency)}</span>
+          </div>
+        </section>
+
+        <section aria-labelledby="shipping-heading" className="mt-12 border-t border-border pt-10">
+          <h2 id="shipping-heading" className="eyebrow">
+            Shipping To
+          </h2>
+          <address className="mt-6 not-italic text-sm leading-relaxed text-muted">
+            <span className="text-foreground">{order.shippingFullName}</span>
+            <br />
+            {order.shippingLine1}
+            <br />
+            {order.shippingLine2 && (
+              <>
+                {order.shippingLine2}
+                <br />
+              </>
+            )}
+            {order.shippingCity}, {order.shippingState} {order.shippingPostalCode}
+            <br />
+            {order.shippingCountry}
+            <br />
+            {order.shippingPhone}
+          </address>
+        </section>
+
+        <div className="mt-16 text-center">
+          <LuxuryButton href="/products" variant="outline" arrow>
+            Continue Shopping
+          </LuxuryButton>
+        </div>
       </div>
-    </div>
-  );
-}
-
-function StatusPill({ label, value, positive }: { label: string; value: string; positive: boolean }) {
-  return (
-    <div className={`border px-4 py-2 ${positive ? "border-accent text-accent" : "border-border text-muted"}`}>
-      <span className="text-[10px] uppercase tracking-[0.2em]">{label}: </span>
-      <span className="text-xs uppercase tracking-[0.15em]">{value}</span>
     </div>
   );
 }

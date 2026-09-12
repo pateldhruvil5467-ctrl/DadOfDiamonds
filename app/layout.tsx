@@ -31,7 +31,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${cormorant.variable} ${inter.variable} antialiased`}>
         <Header />
-        <main className="pt-[72px] md:pt-[113px]">{children}</main>
+        {/* No top padding here on purpose — the homepage hero must bleed to y=0 behind the
+            transparent-over-hero header. Every other page compensates with its own top
+            padding on its root wrapper (see each page.tsx). */}
+        <main>{children}</main>
         <Footer />
       </body>
     </html>

@@ -1,45 +1,38 @@
 /**
- * A sparse field of slowly drifting diamond outlines, absolutely positioned within a relative
- * parent. Positions/sizes/delays are a fixed, hand-picked table — never Math.random() at
- * render time, which would mismatch between server and client renders. Deliberately sparse
- * (7 elements) and GPU-cheap (transform + opacity only, via the shared `float` keyframe).
- * Server Component — no interactivity, so no client bundle cost.
+ * Ambient background atmosphere for dark sections — a handful of large, soft-edged,
+ * near-transparent faceted shapes drifting almost imperceptibly (32–44s per cycle). This is
+ * deliberately NOT a field of small diamond-outline icons scattered around — that reads as
+ * clip-art. The effect here is closer to light and shadow settling in a dark room: barely
+ * perceptible, atmospheric, never something the eye tracks as "moving objects."
+ *
+ * Fixed, hand-picked positions/sizes — never Math.random() at render time, which would
+ * mismatch between server and client renders. Server Component — no interactivity, no client
+ * bundle cost.
  */
-// Tailwind's scanner needs statically-visible class names, so the animation class is looked up
-// here rather than built with a template literal.
-const DURATION_CLASS = {
-  slow: "motion-safe:animate-float-slow",
-  slower: "motion-safe:animate-float-slower",
-} as const;
-
-const LAYOUT = [
-  { top: "12%", left: "8%", size: 14, duration: "slow", delay: 0 },
-  { top: "22%", left: "88%", size: 10, duration: "slower", delay: 2 },
-  { top: "68%", left: "5%", size: 12, duration: "slower", delay: 4 },
-  { top: "78%", left: "92%", size: 16, duration: "slow", delay: 1 },
-  { top: "45%", left: "50%", size: 8, duration: "slower", delay: 3 },
-  { top: "8%", left: "45%", size: 10, duration: "slow", delay: 5 },
-  { top: "85%", left: "60%", size: 12, duration: "slower", delay: 6 },
+const SHAPES = [
+  { top: "-10%", left: "-8%", size: 520, duration: "slower", rotate: -12 },
+  { top: "40%", left: "78%", size: 380, duration: "slow", rotate: 20 },
+  { top: "78%", left: "-6%", size: 420, duration: "slower", rotate: 8 },
 ] as const;
+
+const DURATION_CLASS = {
+  slow: "motion-safe:animate-drift-slow",
+  slower: "motion-safe:animate-drift-slower",
+} as const;
 
 export function FloatingDiamonds({ className = "" }: { className?: string }) {
   return (
     <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`} aria-hidden="true">
-      {LAYOUT.map((d, i) => (
+      {SHAPES.map((s, i) => (
         <svg
           key={i}
-          viewBox="0 0 24 24"
-          width={d.size}
-          height={d.size}
-          className={`absolute opacity-60 ${DURATION_CLASS[d.duration]}`}
-          style={{ top: d.top, left: d.left, animationDelay: `${d.delay}s` }}
+          viewBox="0 0 200 200"
+          width={s.size}
+          height={s.size}
+          className={`absolute opacity-[0.05] blur-[1px] ${DURATION_CLASS[s.duration]}`}
+          style={{ top: s.top, left: s.left, transform: `rotate(${s.rotate}deg)` }}
         >
-          <polygon
-            points="12,2 20,9 16,22 8,22 4,9"
-            fill="none"
-            stroke="var(--accent)"
-            strokeWidth="1"
-          />
+          <polygon points="100,10 175,60 145,190 55,190 25,60" fill="none" stroke="var(--champagne)" strokeWidth="1" />
         </svg>
       ))}
     </div>

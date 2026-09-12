@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCartStore } from "@/lib/cart-store";
 import { formatMoney } from "@/lib/format-money";
+import { LuxuryButton } from "@/components/luxury-button";
 import { addressSchema, type AddressInput } from "@/lib/validations/address";
 import type { CheckoutApiResponse } from "@/lib/validations/checkout";
 
@@ -44,14 +45,13 @@ export function CheckoutForm() {
 
   if (items.length === 0) {
     return (
-      <div className="mt-10 text-center py-16">
+      <div className="mt-14 text-center py-16">
         <p className="text-muted">Your cart is empty — add something before checking out.</p>
-        <Link
-          href="/products"
-          className="mt-8 inline-block bg-foreground text-background px-8 py-3 text-sm tracking-widest uppercase hover:bg-accent transition-colors"
-        >
-          Shop the Collection
-        </Link>
+        <div className="mt-9 flex justify-center">
+          <LuxuryButton href="/products" variant="solid" arrow>
+            Shop the Collection
+          </LuxuryButton>
+        </div>
       </div>
     );
   }
@@ -122,83 +122,81 @@ export function CheckoutForm() {
   }
 
   return (
-    <div className="mt-10 grid gap-12 sm:grid-cols-2">
+    <div className="mt-14 grid gap-16 lg:grid-cols-2">
       <section aria-labelledby="order-summary-heading">
-        <h2 id="order-summary-heading" className="text-sm uppercase tracking-widest text-muted">
+        <h2 id="order-summary-heading" className="eyebrow">
           Order Summary
         </h2>
-        <ul className="mt-4 flex flex-col gap-4">
+        <ul className="mt-6 flex flex-col">
           {items.map((item) => (
-            <li key={item.productId} className="flex justify-between gap-4 text-sm border-b border-border pb-4">
+            <li key={item.productId} className="flex justify-between gap-4 text-sm border-b border-border py-4 first:pt-0">
               <span>
                 {item.name} <span className="text-muted">× {item.quantity}</span>
               </span>
-              <span className="whitespace-nowrap">{formatMoney(item.price * item.quantity, item.currency)}</span>
+              <span className="whitespace-nowrap text-champagne">{formatMoney(item.price * item.quantity, item.currency)}</span>
             </li>
           ))}
         </ul>
 
-        <div className="mt-4 flex justify-between text-sm">
-          <span>Subtotal</span>
+        <div className="mt-5 flex justify-between text-sm">
+          <span className="text-muted">Subtotal</span>
           <span>{formatMoney(subtotal, currency)}</span>
         </div>
-        <p className="mt-2 text-xs text-muted">
+        <p className="mt-3 text-xs text-muted leading-relaxed">
           This subtotal is an estimate for your review. Shipping, tax, and the final order total
           are calculated and confirmed by the server — the amount above is not authoritative.
         </p>
 
-        <Link href="/cart" className="mt-6 inline-block text-sm text-muted hover:text-accent transition-colors">
-          ← Edit cart
+        <Link href="/cart" className="link-reveal mt-8 inline-block text-xs uppercase tracking-[0.15em] text-muted hover:text-foreground transition-colors">
+          ← Edit Cart
         </Link>
       </section>
 
       <section aria-labelledby="shipping-heading">
-        <h2 id="shipping-heading" className="text-sm uppercase tracking-widest text-muted">
+        <h2 id="shipping-heading" className="eyebrow">
           Shipping Details
         </h2>
 
-        <form className="mt-4 flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form className="mt-6 flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)} noValidate>
           <Field label="Full name" error={errors.fullName?.message}>
-            <input {...register("fullName")} autoComplete="name" className={inputClass} />
+            <input {...register("fullName")} autoComplete="name" className="field-underline" />
           </Field>
 
           <Field label="Address line 1" error={errors.line1?.message}>
-            <input {...register("line1")} autoComplete="address-line1" className={inputClass} />
+            <input {...register("line1")} autoComplete="address-line1" className="field-underline" />
           </Field>
 
           <Field label="Address line 2 (optional)" error={errors.line2?.message}>
-            <input {...register("line2")} autoComplete="address-line2" className={inputClass} />
+            <input {...register("line2")} autoComplete="address-line2" className="field-underline" />
           </Field>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-6">
             <Field label="City" error={errors.city?.message}>
-              <input {...register("city")} autoComplete="address-level2" className={inputClass} />
+              <input {...register("city")} autoComplete="address-level2" className="field-underline" />
             </Field>
             <Field label="State / Province" error={errors.state?.message}>
-              <input {...register("state")} autoComplete="address-level1" className={inputClass} />
+              <input {...register("state")} autoComplete="address-level1" className="field-underline" />
             </Field>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-6">
             <Field label="Postal code" error={errors.postalCode?.message}>
-              <input {...register("postalCode")} autoComplete="postal-code" className={inputClass} />
+              <input {...register("postalCode")} autoComplete="postal-code" className="field-underline" />
             </Field>
             <Field label="Country" error={errors.country?.message}>
-              <input {...register("country")} autoComplete="country-name" className={inputClass} />
+              <input {...register("country")} autoComplete="country-name" className="field-underline" />
             </Field>
           </div>
 
           <Field label="Phone" error={errors.phone?.message}>
-            <input {...register("phone")} type="tel" autoComplete="tel" className={inputClass} />
+            <input {...register("phone")} type="tel" autoComplete="tel" className="field-underline" />
           </Field>
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="mt-4 bg-foreground text-background px-8 py-3 text-sm tracking-widest uppercase hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? "Placing Order…" : "Place Order"}
-          </button>
+          <div className="mt-4">
+            <LuxuryButton type="submit" variant="solid" disabled={isSubmitting} arrow className="w-full">
+              {isSubmitting ? "Placing Order…" : "Place Order"}
+            </LuxuryButton>
+          </div>
 
           <div aria-live="polite">
             {outcome.kind === "success" && (
@@ -210,7 +208,7 @@ export function CheckoutForm() {
               <div className="text-sm text-red-400" role="alert">
                 <p>
                   Please{" "}
-                  <Link href="/login?callbackUrl=%2Fcheckout" className="underline">
+                  <Link href="/login?callbackUrl=%2Fcheckout" className="link-reveal">
                     sign in
                   </Link>{" "}
                   to complete your order. Your cart will still be here.
@@ -236,9 +234,6 @@ export function CheckoutForm() {
   );
 }
 
-const inputClass =
-  "w-full border border-border bg-background px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent";
-
 function Field({
   label,
   error,
@@ -249,11 +244,11 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <label className="flex flex-col gap-1 text-sm">
+    <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.15em] text-muted">
       <span>{label}</span>
       {children}
       {error && (
-        <span className="text-xs text-red-400" role="alert">
+        <span className="text-[11px] normal-case tracking-normal text-red-400" role="alert">
           {error}
         </span>
       )}

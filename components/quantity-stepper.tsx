@@ -18,17 +18,17 @@ export function QuantityStepper({
   label,
 }: QuantityStepperProps) {
   return (
-    <div className="inline-flex items-center border border-border" role="group" aria-label={label}>
+    <div className="inline-flex items-center gap-5 border-b border-border-strong pb-2" role="group" aria-label={label}>
       <button
         type="button"
         onClick={onDecrease}
         disabled={value <= min}
         aria-label="Decrease quantity"
-        className="px-3 py-2 text-sm disabled:opacity-30 disabled:cursor-not-allowed hover:bg-surface transition-colors"
+        className="text-sm disabled:opacity-30 disabled:cursor-not-allowed hover:text-accent transition-colors"
       >
         −
       </button>
-      <span className="w-10 text-center text-sm" aria-live="polite">
+      <span className="w-4 text-center text-sm" aria-live="polite">
         {value}
       </span>
       <button
@@ -36,7 +36,7 @@ export function QuantityStepper({
         onClick={onIncrease}
         disabled={value >= max}
         aria-label="Increase quantity"
-        className="px-3 py-2 text-sm disabled:opacity-30 disabled:cursor-not-allowed hover:bg-surface transition-colors"
+        className="text-sm disabled:opacity-30 disabled:cursor-not-allowed hover:text-accent transition-colors"
       >
         +
       </button>

@@ -7,6 +7,9 @@ import { SearchIcon, UserIcon, BagIcon } from "@/components/icons";
 import { MobileNav } from "@/components/mobile-nav";
 import { CartBadge } from "@/components/cart-badge";
 
+// Full depth used by the mobile drawer; the desktop bar itself stays deliberately minimal
+// (see PRIMARY_LINKS below) — a luxury header is not where exhaustive category navigation
+// lives, that's what the /products filter bar is for.
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Collections", href: "/products" },
@@ -14,7 +17,14 @@ export const NAV_LINKS = [
   { label: "Earrings", href: "/products?category=earrings" },
   { label: "Necklaces", href: "/products?category=chains-necklaces" },
   { label: "Bracelets", href: "/products?category=bracelets" },
-  { label: "About", href: "/#story" },
+  { label: "Craft", href: "/#craft" },
+  { label: "Story", href: "/#story" },
+];
+
+const PRIMARY_LINKS = [
+  { label: "Collections", href: "/products" },
+  { label: "Craft", href: "/#craft" },
+  { label: "Story", href: "/#story" },
 ];
 
 export function Header() {
@@ -23,7 +33,7 @@ export function Header() {
   useEffect(() => {
     let wasScrolled = false;
     function onScroll() {
-      const isScrolled = window.scrollY > 48;
+      const isScrolled = window.scrollY > 60;
       if (isScrolled !== wasScrolled) {
         wasScrolled = isScrolled;
         setScrolled(isScrolled);
@@ -36,27 +46,16 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
-        scrolled ? "bg-background border-b border-border" : "bg-background/30 backdrop-blur-sm border-b border-transparent"
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-700 ${
+        scrolled ? "bg-background/92 backdrop-blur-md border-b border-border" : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div className="hidden md:block border-b border-border/60">
-        <div className="mx-auto max-w-7xl px-6 py-2 flex items-center justify-between text-[11px] tracking-[0.2em] uppercase text-muted">
-          <span>Surat — The Diamond City</span>
-          <span>Crafted with Precision · Worldwide Delivery</span>
-        </div>
-      </div>
-
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
-        <Link href="/" className="shrink-0">
-          <BrandLogo />
-        </Link>
-
+      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-6 py-6">
         <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-8 text-xs tracking-[0.15em] uppercase text-foreground">
-            {NAV_LINKS.map((link) => (
+          <ul className="flex items-center gap-9 text-[11px] tracking-[0.24em] uppercase">
+            {PRIMARY_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="link-reveal hover:text-accent transition-colors">
+                <Link href={link.href} className="link-reveal text-foreground/90 hover:text-foreground transition-colors">
                   {link.label}
                 </Link>
               </li>
@@ -64,15 +63,21 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-5">
-          <Link href="/products" aria-label="Search products" className="hidden sm:inline-flex p-1 hover:text-accent transition-colors">
-            <SearchIcon className="h-5 w-5" />
+        <div className="flex lg:justify-self-center col-start-1 lg:col-start-2 justify-self-start">
+          <Link href="/">
+            <BrandLogo />
           </Link>
-          <Link href="/account" aria-label="Your account" className="hidden sm:inline-flex p-1 hover:text-accent transition-colors">
-            <UserIcon className="h-5 w-5" />
+        </div>
+
+        <div className="col-start-3 flex items-center justify-end gap-6">
+          <Link href="/products" aria-label="Search products" className="hidden lg:inline-flex p-1 hover:text-accent transition-colors">
+            <SearchIcon className="h-[18px] w-[18px]" />
+          </Link>
+          <Link href="/account" aria-label="Your account" className="hidden lg:inline-flex p-1 hover:text-accent transition-colors">
+            <UserIcon className="h-[18px] w-[18px]" />
           </Link>
           <Link href="/cart" aria-label="Your cart" className="relative inline-flex p-1 hover:text-accent transition-colors">
-            <BagIcon className="h-5 w-5" />
+            <BagIcon className="h-[18px] w-[18px]" />
             <CartBadge />
           </Link>
           <MobileNav />

@@ -15,8 +15,8 @@ const CUSTOMER_LINKS = [
 ];
 
 const COMPANY_LINKS = [
-  { label: "About", href: "/#story" },
-  { label: "Our Story", href: "/#story" },
+  { label: "Craft", href: "/#craft" },
+  { label: "Story", href: "/#story" },
 ];
 
 export function Footer() {
@@ -26,16 +26,16 @@ export function Footer() {
       <svg
         aria-hidden="true"
         viewBox="0 0 800 400"
-        className="pointer-events-none absolute -bottom-24 -right-24 h-[420px] w-[420px] opacity-[0.06]"
+        className="pointer-events-none absolute -bottom-24 -right-24 h-[420px] w-[420px] opacity-[0.05]"
       >
-        <polygon points="400,20 620,140 540,360 260,360 180,140" fill="none" stroke="var(--accent)" strokeWidth="1.5" />
-        <path d="M400 20 L400 200 M180 140 L400 200 L620 140 M260 360 L400 200 L540 360" fill="none" stroke="var(--accent)" strokeWidth="1" />
+        <polygon points="400,20 620,140 540,360 260,360 180,140" fill="none" stroke="var(--champagne)" strokeWidth="1" />
+        <path d="M400 20 L400 200 M180 140 L400 200 L620 140 M260 360 L400 200 L540 360" fill="none" stroke="var(--champagne)" strokeWidth="0.75" />
       </svg>
 
-      <div className="relative mx-auto max-w-7xl px-6 py-20 grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="relative mx-auto max-w-7xl px-6 pt-24 pb-16 grid gap-14 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
         <div className="max-w-sm">
-          <BrandLogo />
-          <p className="mt-5 text-sm text-muted leading-relaxed">
+          <BrandLogo markClassName="h-10 w-10" className="gap-4" />
+          <p className="mt-7 text-sm text-muted leading-relaxed">
             Born in Surat, the world&rsquo;s diamond-cutting capital. Dad of Diamonds brings that
             precision to fine jewelry crafted for everyone.
           </p>

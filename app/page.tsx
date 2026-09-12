@@ -1,14 +1,13 @@
 import { prisma } from "@/lib/prisma";
-import { CategoryCard } from "@/components/category-card";
+import { CollectionsPanel } from "@/components/collections-panel";
+import { ProductSpotlight } from "@/components/product-spotlight";
 import { FeaturedCollection } from "@/components/featured-collection";
-import { SectionHeading } from "@/components/section-heading";
 import { LuxuryButton } from "@/components/luxury-button";
 import { FloatingDiamonds } from "@/components/floating-diamonds";
+import { DiamondBeam } from "@/components/diamond-beam";
 import { DiamondSparkle } from "@/components/diamond-sparkle";
+import { Reveal } from "@/components/reveal";
 
-// Without this, Next.js would statically prerender this page once at build time — future
-// product/category edits (admin dashboard, later phase) wouldn't appear until the next
-// deploy. Revalidating every 60s keeps it cheap while staying reasonably fresh.
 export const revalidate = 60;
 
 export default async function HomePage() {
@@ -22,172 +21,201 @@ export default async function HomePage() {
     }),
   ]);
 
+  const [spotlightProduct, ...remainingFeatured] = featuredProducts;
+
   return (
     <>
-      {/* ================= HERO ================= */}
-      <section className="relative flex min-h-[92vh] items-center overflow-hidden border-b border-border">
+      {/* ============ 01 — OPENING HERO ============ */}
+      <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background">
         <FloatingDiamonds />
-
-        {/* Large, extremely slow-rotating faceted diamond as a cinematic backdrop element */}
-        <svg
-          viewBox="0 0 200 200"
-          aria-hidden="true"
-          className="motion-safe:animate-spin-slow pointer-events-none absolute right-[-10%] top-1/2 h-[560px] w-[560px] -translate-y-1/2 opacity-[0.07] sm:right-[-5%] lg:right-[5%]"
-        >
-          <polygon points="100,10 175,60 145,190 55,190 25,60" fill="none" stroke="var(--accent)" strokeWidth="1" />
-          <path d="M100 10 L100 95 M25 60 L100 95 L175 60 M55 190 L100 95 L145 190" fill="none" stroke="var(--accent)" strokeWidth="0.75" />
-        </svg>
-
-        <div className="relative mx-auto max-w-7xl px-6 py-24 text-center sm:text-left">
-          <p className="eyebrow flex items-center justify-center gap-2 sm:justify-start">
-            <DiamondSparkle size={12} />
-            From Surat to the World
-          </p>
-
-          <h1 className="mt-6 font-display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl max-w-3xl">
-            More Than Jewellery.
-            <br />
-            <span className="text-accent">A Brighter Tomorrow.</span>
-          </h1>
-
-          <p className="mt-7 max-w-lg text-muted leading-relaxed mx-auto sm:mx-0">
-            Born in Surat, shaped by generations of diamond craftsmanship — Dad of Diamonds
-            brings that precision to rings, earrings, necklaces, and bracelets made for anyone,
-            every day.
-          </p>
-
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center justify-center sm:justify-start">
-            <LuxuryButton href="/products" arrow>
-              Explore Collection
-            </LuxuryButton>
-            <LuxuryButton href="/#story" variant="outline">
-              Our Story
-            </LuxuryButton>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= VALUE STRIP ================= */}
-      <section className="border-b border-border">
-        <div className="mx-auto max-w-7xl px-6 py-14 grid gap-10 sm:grid-cols-3 text-center">
-          {[
-            { title: "Precision Cut", body: "Every facet shaped with the discipline of Surat's diamond workshops." },
-            { title: "Made For Everyone", body: "Unisex designs built to be worn daily, not saved for occasions." },
-            { title: "Honest Pricing", body: "Fine diamonds without an inflated brand-name markup." },
-          ].map((item) => (
-            <div key={item.title}>
-              <h3 className="font-display text-xl">{item.title}</h3>
-              <p className="mt-2 text-sm text-muted leading-relaxed">{item.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ================= SHOP BY CATEGORY ================= */}
-      <section aria-labelledby="categories-heading" className="mx-auto max-w-7xl px-6 py-24">
-        <SectionHeading id="categories-heading" eyebrow="The Collection" heading="Shop by Category" />
-
-        <div className="mt-14 grid gap-6 sm:grid-cols-2">
-          {categories.map((category, i) => (
-            <div key={category.id} className={i === 0 ? "sm:col-span-2" : ""}>
-              <CategoryCard category={category} size={i === 0 ? "large" : "small"} />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ================= SURAT STORY ================= */}
-      <section
-        id="story"
-        className="relative scroll-mt-[73px] md:scroll-mt-[114px] overflow-hidden border-y border-border bg-surface py-28"
-      >
-        <FloatingDiamonds className="opacity-70" />
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 1000 500"
-          className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.08]"
-          preserveAspectRatio="xMidYMid slice"
-        >
-          <circle cx="500" cy="250" r="3" fill="var(--accent)" />
-          {[
-            [500, 250, 120, 90],
-            [500, 250, 260, 150],
-            [500, 250, 400, 40],
-            [500, 250, 200, 380],
-            [500, 250, 780, 340],
-            [500, 250, 850, 120],
-          ].map(([x1, y1, x2, y2], i) => (
-            <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--accent)" strokeWidth="1" />
-          ))}
-        </svg>
+        <DiamondBeam className="top-0" />
 
         <div className="relative mx-auto max-w-3xl px-6 text-center">
-          <SectionHeading
-            eyebrow="Surat, India"
-            heading={
-              <>
-                Crafted in Surat.
-                <br />
-                Made for the World.
-              </>
-            }
-            supporting="Nine out of every ten diamonds cut and polished worldwide pass through Surat's
-              workshops. Dad of Diamonds was founded in that same city — carrying its discipline
-              of precision into jewelry meant to be worn, not just admired."
-          />
+          <Reveal>
+            <p className="text-[10px] tracking-[0.5em] text-muted">DAD OF DIAMONDS</p>
+            <p className="mt-6 eyebrow flex items-center justify-center gap-2">
+              <DiamondSparkle size={11} />
+              From Surat to the World
+            </p>
+          </Reveal>
+
+          <Reveal delayMs={150}>
+            <h1 className="mt-8 font-display text-5xl sm:text-7xl leading-[1.05]">
+              More Than Jewellery.
+              <br />
+              A Brighter Tomorrow.
+            </h1>
+          </Reveal>
+
+          <Reveal delayMs={300}>
+            <div className="mt-12">
+              <LuxuryButton href="/products" arrow variant="line" className="text-foreground">
+                Explore Collection
+              </LuxuryButton>
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 h-14 w-px bg-gradient-to-b from-transparent via-border-strong to-transparent" />
+      </section>
+
+      {/* ============ 02 — BRAND STATEMENT ============ */}
+      <section className="relative py-36 sm:py-48 text-center">
+        <Reveal>
+          <DiamondSparkle size={18} className="mx-auto mb-8" />
+          <h2 className="font-display text-3xl sm:text-4xl">Crafted in Surat.</h2>
+          <p className="mt-4 text-muted">Where precision meets brilliance.</p>
+        </Reveal>
+      </section>
+
+      {/* ============ 03 — SURAT / DIAMOND STORY ============ */}
+      <section id="story" className="relative scroll-mt-[100px] overflow-hidden bg-background-deep py-36 sm:py-48">
+        <FloatingDiamonds className="opacity-70" />
+
+        <div className="relative mx-auto max-w-4xl px-6 text-center">
+          <Reveal variant="scale">
+            <SuratMap />
+          </Reveal>
+
+          <Reveal delayMs={200}>
+            <p className="mt-4 eyebrow">Surat, India</p>
+            <h2 className="mt-4 font-display text-4xl sm:text-6xl leading-[1.05]">
+              The Diamond City
+            </h2>
+            <p className="mx-auto mt-7 max-w-xl text-muted leading-relaxed">
+              Nine out of every ten diamonds cut and polished worldwide pass through Surat&rsquo;s
+              workshops. Dad of Diamonds was founded in that same city.
+            </p>
+            <p className="mt-8 font-display text-xl tracking-wide text-champagne">
+              Cut with precision. Made to last.
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* ================= FEATURED COLLECTION ================= */}
-      {featuredProducts.length > 0 && (
-        <section aria-labelledby="featured-heading" className="mx-auto max-w-7xl px-6 py-24">
-          <SectionHeading id="featured-heading" eyebrow="Featured" heading="This Season's Edit" align="left" />
-          <div className="mt-14">
-            <FeaturedCollection products={featuredProducts} />
-          </div>
+      {/* ============ 04 — COLLECTIONS ============ */}
+      <section aria-labelledby="collections-heading" className="py-32 sm:py-40">
+        <Reveal className="mx-auto max-w-7xl px-6 text-center">
+          <p className="eyebrow">The Collection</p>
+          <h2 id="collections-heading" className="mt-4 font-display text-4xl sm:text-5xl">
+            Shop by Category
+          </h2>
+        </Reveal>
+
+        <Reveal delayMs={150} className="mx-auto mt-16 max-w-7xl px-6">
+          <CollectionsPanel categories={categories} />
+        </Reveal>
+      </section>
+
+      {/* ============ 05 — FEATURED DIAMOND ============ */}
+      {spotlightProduct && (
+        <section aria-labelledby="spotlight-heading" className="border-t border-border py-32 sm:py-40">
+          <h2 id="spotlight-heading" className="sr-only">
+            Featured Piece
+          </h2>
+          <Reveal className="mx-auto max-w-7xl px-6">
+            <ProductSpotlight product={spotlightProduct} />
+          </Reveal>
         </section>
       )}
 
-      {/* ================= EDITORIAL QUOTE ================= */}
-      <section className="border-y border-border">
-        <div className="mx-auto max-w-3xl px-6 py-24 text-center">
-          <DiamondSparkle size={20} className="mx-auto mb-6" />
-          <p className="font-display text-3xl sm:text-4xl leading-snug">
-            &ldquo;In Surat, precision is inherited — passed from hand to hand for generations.
-            Dad of Diamonds carries that same care into every piece.&rdquo;
+      {/* ============ 06 — CRAFTSMANSHIP ============ */}
+      <section id="craft" className="relative scroll-mt-[100px] overflow-hidden bg-background-deep py-40 sm:py-56 text-center">
+        <FacetLines />
+        <Reveal className="relative mx-auto max-w-2xl px-6">
+          <p className="font-display text-5xl sm:text-7xl leading-[1.05]">
+            Precision
+            <br />
+            Is
+            <br />
+            <span className="text-champagne">Beauty.</span>
           </p>
-        </div>
+          <p className="mx-auto mt-9 max-w-sm text-muted leading-relaxed">
+            Every facet is cut, weighed, and set by hand — a discipline carried from Surat&rsquo;s
+            workshops into every piece we make.
+          </p>
+        </Reveal>
       </section>
 
-      {/* ================= TRUST STRIP ================= */}
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-10 sm:grid-cols-3 text-center">
-          {[
-            { title: "Crafted with Precision", body: "Every piece finished to a fine, exacting standard." },
-            { title: "Thoughtful Packaging", body: "Presented the way a diamond deserves to arrive." },
-            { title: "Worldwide Delivery", body: "Shipped securely, wherever you call home." },
-          ].map((item) => (
-            <div key={item.title} className="border border-border bg-surface p-8">
-              <h3 className="font-display text-lg">{item.title}</h3>
-              <p className="mt-2 text-sm text-muted leading-relaxed">{item.body}</p>
-            </div>
-          ))}
-        </div>
+      {/* ============ 07 — PRODUCT COLLECTION ============ */}
+      {remainingFeatured.length > 0 && (
+        <section aria-labelledby="edit-heading" className="py-32 sm:py-40">
+          <Reveal className="mx-auto max-w-7xl px-6">
+            <p className="eyebrow">This Season</p>
+            <h2 id="edit-heading" className="mt-4 font-display text-4xl sm:text-5xl">
+              The Edit
+            </h2>
+          </Reveal>
+          <Reveal delayMs={150} className="mx-auto mt-14 max-w-7xl px-6">
+            <FeaturedCollection products={remainingFeatured} />
+          </Reveal>
+        </section>
+      )}
+
+      {/* ============ 08 — EDITORIAL QUOTE ============ */}
+      <section className="border-y border-border py-36 sm:py-48 text-center">
+        <Reveal className="mx-auto max-w-2xl px-6">
+          <div className="rule-gold mx-auto mb-9" />
+          <p className="font-display text-4xl sm:text-5xl leading-[1.15]">
+            Brilliance
+            <br />
+            is in the
+            <br />
+            detail.
+          </p>
+        </Reveal>
       </section>
 
-      {/* ================= FINAL CTA ================= */}
-      <section className="relative overflow-hidden border-t border-border bg-surface py-24 text-center">
+      {/* ============ 09 — FINAL CTA ============ */}
+      <section className="relative overflow-hidden bg-background-deep py-36 sm:py-48 text-center">
         <FloatingDiamonds />
-        <div className="relative mx-auto max-w-2xl px-6">
-          <h2 className="font-display text-4xl sm:text-5xl">Ready to find your piece?</h2>
-          <p className="mt-5 text-muted">Rings, earrings, necklaces, and bracelets — crafted for anyone, every day.</p>
-          <div className="mt-9">
-            <LuxuryButton href="/products" arrow>
-              Shop the Collection
+        <DiamondBeam className="top-0" />
+        <Reveal className="relative mx-auto max-w-xl px-6">
+          <h2 className="font-display text-4xl sm:text-6xl leading-[1.05]">
+            Find Your
+            <br />
+            Brilliance.
+          </h2>
+          <div className="mt-10">
+            <LuxuryButton href="/products" arrow variant="outline">
+              Explore Collection
             </LuxuryButton>
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
+  );
+}
+
+function SuratMap() {
+  return (
+    <svg viewBox="0 0 400 200" className="mx-auto h-32 w-full max-w-md" aria-hidden="true">
+      <g stroke="var(--border-strong)" strokeWidth="1" opacity="0.8">
+        <line x1="200" y1="100" x2="30" y2="40" />
+        <line x1="200" y1="100" x2="60" y2="170" />
+        <line x1="200" y1="100" x2="370" y2="50" />
+        <line x1="200" y1="100" x2="340" y2="160" />
+        <line x1="200" y1="100" x2="200" y2="15" />
+      </g>
+      <circle cx="200" cy="100" r="16" fill="var(--accent)" opacity="0.12" />
+      <circle cx="200" cy="100" r="4" fill="var(--accent)" />
+      <text x="200" y="128" textAnchor="middle" fill="var(--muted)" fontSize="10" letterSpacing="2">
+        SURAT
+      </text>
+    </svg>
+  );
+}
+
+function FacetLines() {
+  return (
+    <svg
+      viewBox="0 0 800 400"
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.07]"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <polygon points="400,60 520,160 470,340 330,340 280,160" fill="none" stroke="var(--champagne)" strokeWidth="1" />
+      <path d="M400 60 L400 220 M280 160 L400 220 L520 160 M330 340 L400 220 L470 340" fill="none" stroke="var(--champagne)" strokeWidth="0.6" />
+    </svg>
   );
 }
