@@ -80,14 +80,18 @@ export default async function ProductDetailPage({
               />
             </div>
 
-            <div className="mt-10 grid grid-cols-2 gap-6 border-t border-border pt-8 text-[11px] uppercase tracking-[0.2em] text-muted">
+            <div className="mt-10 grid grid-cols-1 gap-6 border-t border-border pt-8 text-[11px] uppercase tracking-[0.2em] text-muted sm:grid-cols-3">
               <div>
-                <p className="text-foreground">Delivery</p>
-                <p className="mt-1.5">Worldwide, securely packed</p>
+                <p className="text-foreground">Crafted in Surat</p>
+                <p className="mt-1.5 normal-case tracking-normal">India&rsquo;s diamond-cutting capital</p>
               </div>
               <div>
-                <p className="text-foreground">Packaging</p>
-                <p className="mt-1.5">Presented with care</p>
+                <p className="text-foreground">Complimentary Delivery</p>
+                <p className="mt-1.5 normal-case tracking-normal">Worldwide, securely packed</p>
+              </div>
+              <div>
+                <p className="text-foreground">Secure Checkout</p>
+                <p className="mt-1.5 normal-case tracking-normal">Verified and encrypted</p>
               </div>
             </div>
           </div>

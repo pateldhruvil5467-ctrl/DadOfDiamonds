@@ -37,7 +37,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
         <span>Email</span>
         <input {...register("email")} type="email" autoComplete="email" className="field-underline" />
         {errors.email && (
-          <span className="text-[11px] normal-case tracking-normal text-red-400" role="alert">
+          <span className="text-[11px] normal-case tracking-normal text-danger" role="alert">
             {errors.email.message}
           </span>
         )}
@@ -47,7 +47,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
         <span>Password</span>
         <input {...register("password")} type="password" autoComplete="current-password" className="field-underline" />
         {errors.password && (
-          <span className="text-[11px] normal-case tracking-normal text-red-400" role="alert">
+          <span className="text-[11px] normal-case tracking-normal text-danger" role="alert">
             {errors.password.message}
           </span>
         )}
@@ -60,7 +60,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
       </div>
 
       {authError && (
-        <p className="text-sm text-red-400" role="alert">
+        <p className="text-sm text-danger" role="alert">
           {authError}
         </p>
       )}

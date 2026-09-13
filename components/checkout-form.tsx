@@ -205,7 +205,7 @@ export function CheckoutForm() {
               </p>
             )}
             {outcome.kind === "needs-auth" && (
-              <div className="text-sm text-red-400" role="alert">
+              <div className="text-sm text-danger" role="alert">
                 <p>
                   Please{" "}
                   <Link href="/login?callbackUrl=%2Fcheckout" className="link-reveal">
@@ -216,7 +216,7 @@ export function CheckoutForm() {
               </div>
             )}
             {outcome.kind === "error" && (
-              <div className="text-sm text-red-400" role="alert">
+              <div className="text-sm text-danger" role="alert">
                 <p>{outcome.message}</p>
                 {outcome.details && outcome.details.length > 0 && (
                   <ul className="mt-2 list-disc pl-5">
@@ -248,7 +248,7 @@ function Field({
       <span>{label}</span>
       {children}
       {error && (
-        <span className="text-[11px] normal-case tracking-normal text-red-400" role="alert">
+        <span className="text-[11px] normal-case tracking-normal text-danger" role="alert">
           {error}
         </span>
       )}

@@ -1,17 +1,13 @@
 import { DiamondMark } from "@/components/brand-logo";
-import { FloatingDiamonds } from "@/components/floating-diamonds";
-import { DiamondBeam } from "@/components/diamond-beam";
 
 /**
- * The decorative left panel shared by /login and /register — cinematic dark visual, hidden on
- * small screens where the form takes the full width.
+ * The decorative left panel shared by /login and /register — a quiet warm pearl visual, hidden
+ * on small screens where the form takes the full width. Deliberately undecorated: no floating
+ * diamond motifs here, just typography and negative space.
  */
 export function AuthVisual() {
   return (
     <div className="relative hidden lg:flex flex-col justify-between overflow-hidden bg-background-deep p-14">
-      <FloatingDiamonds />
-      <DiamondBeam className="top-0" />
-
       <DiamondMark className="relative h-8 w-8" />
 
       <div className="relative">

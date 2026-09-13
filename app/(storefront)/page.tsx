@@ -1,10 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { CollectionsPanel } from "@/components/collections-panel";
+import { CollectionSelector } from "@/components/collection-selector";
 import { ProductSpotlight } from "@/components/product-spotlight";
 import { FeaturedCollection } from "@/components/featured-collection";
 import { LuxuryButton } from "@/components/luxury-button";
 import { FloatingDiamonds } from "@/components/floating-diamonds";
-import { DiamondBeam } from "@/components/diamond-beam";
 import { DiamondSparkle } from "@/components/diamond-sparkle";
 import { Reveal } from "@/components/reveal";
 
@@ -27,9 +26,6 @@ export default async function HomePage() {
     <>
       {/* ============ 01 — OPENING HERO ============ */}
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background">
-        <FloatingDiamonds />
-        <DiamondBeam className="top-0" />
-
         <div className="relative mx-auto max-w-3xl px-6 text-center">
           <Reveal>
             <p className="text-[10px] tracking-[0.5em] text-muted">DAD OF DIAMONDS</p>
@@ -103,7 +99,7 @@ export default async function HomePage() {
         </Reveal>
 
         <Reveal delayMs={150} className="mx-auto mt-16 max-w-7xl px-6">
-          <CollectionsPanel categories={categories} />
+          <CollectionSelector categories={categories} />
         </Reveal>
       </section>
 
@@ -168,8 +164,6 @@ export default async function HomePage() {
 
       {/* ============ 09 — FINAL CTA ============ */}
       <section className="relative overflow-hidden bg-background-deep py-36 sm:py-48 text-center">
-        <FloatingDiamonds />
-        <DiamondBeam className="top-0" />
         <Reveal className="relative mx-auto max-w-xl px-6">
           <h2 className="font-display text-4xl sm:text-6xl leading-[1.05]">
             Find Your

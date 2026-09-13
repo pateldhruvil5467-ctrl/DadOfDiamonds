@@ -55,7 +55,7 @@ function EditorialTile({ product, large = false }: { product: ProductWithRelatio
           alt={image.altText ?? product.name}
           width={large ? 480 : 320}
           height={large ? 480 : 320}
-          className={`h-full w-full object-contain transition-transform duration-[1200ms] ease-[var(--ease-luxury)] group-hover:scale-[1.05] ${large ? "p-16" : "p-10"}`}
+          className={`h-full w-full object-contain transition-transform duration-[1200ms] ease-[var(--ease-luxury)] group-hover:scale-[1.03] ${large ? "p-16" : "p-10"}`}
         />
       ) : (
         <span className="flex h-full items-center justify-center text-xs text-muted">No image</span>

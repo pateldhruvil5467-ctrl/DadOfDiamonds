@@ -3,27 +3,31 @@
 /*
  * DAD OF DIAMONDS — design system
  *
- * Philosophy: 95% black / ivory / silver, 5% gold. Gold is a rare accent (the logo, one CTA
- * state, a hairline rule under a handful of headings) — not the theme. Restraint, scale, and
- * negative space carry the "expensive" feeling; color does not.
+ * Philosophy: Indian diamond house × modern European luxury editorial. A warm, light, tactile
+ * palette — ivory, pearl, espresso, muted warm-gray, with champagne/gold held back as a rare
+ * accent (the logo, one CTA state, a hairline rule under a handful of headings), never the
+ * dominant color. Restraint, scale, and negative space carry the "expensive" feeling; color
+ * does not. Deliberately NOT a dark theme — the previous near-black system read as a dark
+ * SaaS dashboard rather than a jewelry house, so this is a full repaint, not an inversion.
  */
 :root {
-  --background: #080808;
-  --background-deep: #0d0d0d; /* signature dark sections (Surat story, craftsmanship, CTA) */
-  --surface: #121212;
-  --foreground: #f4efe4; /* warm ivory */
-  --muted: #a9a29a; /* soft silver/taupe — used far more than gold */
-  --champagne: #d9cdb8; /* secondary warm neutral, between ivory and silver */
-  --accent: #b6913f; /* muted metallic gold — rare accent only */
-  --accent-foreground: #080808;
-  --border: #232323; /* hairline separators */
-  --border-strong: #333333;
+  --background: #f8f6f1; /* warm ivory — primary background */
+  --background-deep: #f0ece4; /* soft pearl — signature sections (Surat story, craftsmanship, CTA) */
+  --surface: #fcfbf8; /* lightest surface — product image containers/cards sit just above the page */
+  --foreground: #241f1a; /* deep espresso text */
+  --muted: #6b6259; /* warm gray secondary text */
+  --champagne: #93724a; /* deeper warm gold-brown — used for price text, needs to read as content, not decoration */
+  --accent: #b59a6a; /* restrained champagne/gold — rare accent only (logo, hover states, hairlines) */
+  --accent-foreground: #241f1a;
+  --border: #e6e0d5; /* warm taupe hairline separators */
+  --border-strong: #cfc5b4;
 
-  /* Operational status colors — admin console only. Muted/desaturated to stay in the same
-     restrained register as the rest of the palette (never bright SaaS red/green); used solely
-     to reinforce a text status label, never as the only signal. */
-  --status-success: #7c9a72;
-  --status-danger: #b16a55;
+  /* Semantic status colors — shared by the storefront (form validation, order status) and the
+     admin console. Muted/desaturated to stay in the same restrained warm register (never
+     bright SaaS red/green); darkened enough to keep real text contrast against the light
+     background — used to reinforce a text label, never as the only signal. */
+  --status-success: #4f7a54;
+  --status-danger: #a34a32;
 
   --font-display: var(--font-cormorant);
   --font-sans: var(--font-inter);
@@ -42,6 +46,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
+  --color-success: var(--status-success);
+  --color-danger: var(--status-danger);
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
 
@@ -127,7 +133,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(115deg, transparent 42%, rgba(244, 239, 228, 0.1) 50%, transparent 58%);
+  background: linear-gradient(115deg, transparent 42%, rgba(181, 154, 106, 0.16) 50%, transparent 58%);
   transform: translateX(-130%);
   transition: transform 1.1s var(--ease-luxury);
   pointer-events: none;
