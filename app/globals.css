@@ -19,6 +19,12 @@
   --border: #232323; /* hairline separators */
   --border-strong: #333333;
 
+  /* Operational status colors — admin console only. Muted/desaturated to stay in the same
+     restrained register as the rest of the palette (never bright SaaS red/green); used solely
+     to reinforce a text status label, never as the only signal. */
+  --status-success: #7c9a72;
+  --status-danger: #b16a55;
+
   --font-display: var(--font-cormorant);
   --font-sans: var(--font-inter);
 
